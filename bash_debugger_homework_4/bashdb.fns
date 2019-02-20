@@ -56,6 +56,24 @@ function_cmdloop {
     done
 }
 
+# See if this line number has a breakpoint, got this from Iwo...didn't see it in the book
+function _at_linenumbp
+{
+local i=0
+# Loop through the breakpoints array and check to see if any of
+# them match the current line number. If they do return true (0)
+# otherwise return false.
+if [ "$_linebp" ]; then
+while (( $i < ${#_linebp[@]} )); do
+if (( ${_linebp[$i]} == $_curline )); then
+return 0
+fi
+let i=$i+1
+done
+fi
+return 1
+}
+
 # Set a breakpoint at the given line number or list breakpoints
 function _setbp
 {
